@@ -1,18 +1,15 @@
 resource "random_password" "rds" {
-  count            = var.create ? 1 : 0
   length           = 22
   special          = true
   override_special = "."
 }
 locals {
-  db_password = try(random_password.rds[0].result, "")
+  db_password = random_password.rds.result
 }
 
 
 module "rds_postgresql" {
   source = "terraform-aws-modules/rds/aws"
-
-  create_db_instance = var.create
 
   identifier = lower(var.prefix)
 
@@ -51,8 +48,6 @@ module "rds_postgresql" {
 module "rds_teleport" {
   source = "../terraform-teleport-agent"
 
-  create = var.create
-
   cloud = "AWS"
 
   aws_vpc_id            = var.aws_vpc_id
@@ -60,7 +55,7 @@ module "rds_teleport" {
   aws_subnet_id         = var.aws_subnet_ids[0]
 
   aws_key_pair         = var.aws_key_name
-  aws_instance_profile = try(aws_iam_instance_profile.rds_postgresql[0].name, "")
+  aws_instance_profile = aws_iam_instance_profile.rds_postgresql.name
 
 
   agent_nodename = "rds-agent"
@@ -73,7 +68,7 @@ module "rds_teleport" {
 
   teleport_agent_roles = ["Db"]
 
-  teleport_rds_hosts = var.create ? local.rds_hosts : {}
+  teleport_rds_hosts = local.rds_hosts
 
 }
 
@@ -130,12 +125,10 @@ locals {
 # ---------------------------------------------------------------------------- #
 
 resource "aws_iam_instance_profile" "rds_postgresql" {
-  count = var.create ? 1 : 0
   name  = "${var.prefix}RdsProfile"
-  role  = aws_iam_role.rds_postgresql[count.index].name
+  role  = aws_iam_role.rds_postgresql.name
 }
 resource "aws_iam_role" "rds_postgresql" {
-  count = var.create ? 1 : 0
   name  = "${var.prefix}RdsAssume"
 
   assume_role_policy = <<EOF
@@ -155,9 +148,8 @@ resource "aws_iam_role" "rds_postgresql" {
 EOF
 }
 resource "aws_iam_role_policy" "rds_postgresql" {
-  count = var.create ? 1 : 0
   name  = "${var.prefix}RdsPolicy"
-  role  = aws_iam_role.rds_postgresql[count.index].id
+  role  = aws_iam_role.rds_postgresql.id
 
   policy = <<EOF
 {

@@ -207,6 +207,8 @@ module "auto_discovery_nodes" {
 module "auto_discovery_agent" {
   source = "../terraform-teleport-agent"
 
+  create = var.create
+
   cloud = "AWS"
 
   aws_vpc_id            = var.aws_vpc_id

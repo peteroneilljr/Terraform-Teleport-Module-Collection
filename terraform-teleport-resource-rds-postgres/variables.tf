@@ -1,7 +1,3 @@
-variable "create" {
-  type        = bool
-  description = "description"
-}
 variable "prefix" {
   type        = string
   description = "description"

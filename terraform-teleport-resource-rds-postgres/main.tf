@@ -49,7 +49,7 @@ module "rds_postgresql" {
 }
 
 module "rds_teleport" {
-  source = "../terraform-teleport-node"
+  source = "../terraform-teleport-agent"
 
   create = var.create
 

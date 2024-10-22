@@ -35,7 +35,7 @@ resource "google_service_account_iam_binding" "teleport_vm_viewer" {
 # Deploy Teleport Agent 
 # ---------------------------------------------------------------------------- #
 module "teleport_gcp" {
-  source = "../terraform-teleport-node"
+  source = "../terraform-teleport-agent"
 
   # create = local.teleport.gcp
 

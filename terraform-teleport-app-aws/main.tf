@@ -152,9 +152,7 @@ resource "aws_iam_role_policy_attachment" "teleport_assume_ec2_admin" {
 # Deploy Teleport Agent 
 # ---------------------------------------------------------------------------- #
 module "teleport_aws" {
-  source = "../terraform-teleport-node"
-
-  # create = local.teleport.aws
+  source = "../terraform-teleport-agent"
 
   cloud = "AWS"
 

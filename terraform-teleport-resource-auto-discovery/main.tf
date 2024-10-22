@@ -205,9 +205,7 @@ module "auto_discovery_nodes" {
 # Create Teleport Agent with Discovery Service Running
 # ---------------------------------------------------------------------------- #
 module "auto_discovery_agent" {
-  source = "../terraform-teleport-node"
-
-  create = var.create
+  source = "../terraform-teleport-agent"
 
   cloud = "AWS"
 

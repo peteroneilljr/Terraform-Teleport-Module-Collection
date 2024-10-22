@@ -47,7 +47,7 @@ module "windows_instances" {
 # Create Teleport Agent to proxy windows machines
 # ---------------------------------------------------------------------------- #
 module "windows_teleport" {
-  source = "../terraform-teleport-node"
+  source = "../terraform-teleport-agent"
 
   create = var.create
 

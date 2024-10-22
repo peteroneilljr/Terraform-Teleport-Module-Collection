@@ -1,0 +1,3 @@
+[submodule "terraform-teleport-agent"]
+	path = terraform-teleport-agent
+	url = https://github.com/peteroneilljr/terraform-teleport-agent

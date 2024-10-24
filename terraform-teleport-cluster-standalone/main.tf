@@ -25,7 +25,7 @@ resource "kubernetes_secret" "license" {
 }
 
 # defines helm release for teleport cluster
-# https://goteleport.com/docs/reference/helm-reference/teleport-cluster/#aws
+# https://goteleport.com/docs/reference/helm-reference/teleport-cluster
 resource "helm_release" "teleport_cluster" {
   namespace = kubernetes_namespace.teleport_cluster.metadata[0].name
   wait      = true

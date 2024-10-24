@@ -23,8 +23,8 @@ module "rds_postgresql" {
   allocated_storage     = 5
   max_allocated_storage = 10
 
-  db_name  = "yokodb"
-  username = "yoko"
+  db_name  = "peterdemodb"
+  username = "peter"
   port     = "5432"
   password = local.db_password
 

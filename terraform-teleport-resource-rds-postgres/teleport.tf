@@ -6,10 +6,9 @@ module "rds_teleport" {
 
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id
-  # aws_subnet_id         = "subnet-08129b4f30b079b1c"
   aws_subnet_id         = var.aws_subnet_ids[0]
 
-  public_ip = true
+  public_ip = false
 
   aws_key_pair         = var.aws_key_name
   aws_instance_profile = aws_iam_instance_profile.rds_postgresql.name

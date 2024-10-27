@@ -1,10 +1,10 @@
 
 resource "aws_iam_instance_profile" "rds_postgresql" {
-  name  = "${var.prefix}RdsProfile"
-  role  = aws_iam_role.rds_postgresql.name
+  name = "${var.prefix}RdsProfile"
+  role = aws_iam_role.rds_postgresql.name
 }
 resource "aws_iam_role" "rds_postgresql" {
-  name  = "${var.prefix}RdsAssume"
+  name = "${var.prefix}RdsAssume"
 
   assume_role_policy = <<EOF
 {
@@ -23,8 +23,8 @@ resource "aws_iam_role" "rds_postgresql" {
 EOF
 }
 resource "aws_iam_role_policy" "rds_postgresql" {
-  name  = "${var.prefix}RdsPolicy"
-  role  = aws_iam_role.rds_postgresql.id
+  name = "${var.prefix}RdsPolicy"
+  role = aws_iam_role.rds_postgresql.id
 
   policy = <<EOF
 {

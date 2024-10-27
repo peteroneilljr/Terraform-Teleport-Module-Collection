@@ -20,7 +20,7 @@ variable "aws_subnet_ids" {
 }
 variable "aws_tags" {
   description = "description"
-  default = {}
+  default     = {}
 }
 variable "teleport_proxy_address" {
   type        = string

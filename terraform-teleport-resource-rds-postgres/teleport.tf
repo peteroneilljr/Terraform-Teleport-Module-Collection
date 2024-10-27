@@ -2,8 +2,6 @@
 module "rds_teleport" {
   source = "../terraform-teleport-agent"
 
-  cloud = "AWS"
-
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id
   aws_subnet_id         = var.aws_subnet_ids[0]

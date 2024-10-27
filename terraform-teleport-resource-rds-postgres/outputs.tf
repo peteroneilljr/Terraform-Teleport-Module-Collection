@@ -8,24 +8,24 @@ output "psql" {
   EOF
   sensitive = true
 }
-output host {
+output "host" {
   value       = module.rds_postgresql.db_instance_address
   description = "description"
 }
-output port {
+output "port" {
   value       = module.rds_postgresql.db_instance_port
   description = "description"
 }
-output username {
+output "username" {
   value       = module.rds_postgresql.db_instance_username
   description = "description"
 }
-output database {
+output "database" {
   value       = module.rds_postgresql.db_instance_name
   description = "description"
 }
-output password {
+output "password" {
   value       = random_password.rds.result
-  sensitive = true
+  sensitive   = true
   description = "description"
 }

@@ -153,14 +153,12 @@ resource "aws_iam_role_policy_attachment" "teleport_assume_ec2_admin" {
 # ---------------------------------------------------------------------------- #
 module "teleport_aws" {
   source = "../terraform-teleport-agent"
-  
-  cloud = "AWS"
 
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id
   aws_subnet_id         = var.aws_subnet_id
 
-  teleport_agent_roles = ["App"]
+  teleport_agent_roles = ["Node", "App"]
 
   teleport_proxy_address = var.teleport_proxy_address
   teleport_version       = var.teleport_version
@@ -171,11 +169,12 @@ module "teleport_aws" {
   aws_key_pair         = var.aws_key_pair
   aws_instance_profile = aws_iam_instance_profile.console_access.name
 
-  agent_nodename = "aws-agent"
+  teleport_nodename = "aws-agent"
 
-  teleport_aws_apps = {
+  teleport_apps = {
     "awsconsole" = {
       "uri" = "https://console.aws.amazon.com/"
+      "cloud" = "AWS"
       "labels" = {
         "cloud" = "aws"
         "env"   = "dev"
@@ -183,6 +182,7 @@ module "teleport_aws" {
     }
     "awsconsole-admin" = {
       "uri" = "https://console.aws.amazon.com/"
+      "cloud" = "AWS"
       "labels" = {
         "cloud" = "aws"
         "env"   = "prod"

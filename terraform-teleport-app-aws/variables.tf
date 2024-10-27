@@ -17,7 +17,7 @@ variable "aws_subnet_id" {
 variable "aws_key_pair" {
   type        = string
   description = "description"
-  default = null
+  default     = null
 }
 variable "teleport_proxy_address" {
   type        = string

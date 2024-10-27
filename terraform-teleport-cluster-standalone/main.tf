@@ -37,7 +37,7 @@ resource "helm_release" "teleport_cluster" {
   chart      = "teleport-cluster"
   version    = var.teleport_version
   values = [
-<<EOF
+    <<EOF
 clusterName: "${var.teleport_subdomain}.${var.aws_domain_name}"
 chartMode: standalone
 proxyListenerMode: multiplex
@@ -49,6 +49,6 @@ persistence:
 operator:
   enabled: true
 EOF
-    ]
+  ]
 }
 

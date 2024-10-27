@@ -152,7 +152,7 @@ resource "aws_iam_role_policy_attachment" "teleport_assume_ec2_admin" {
 # Deploy Teleport Agent 
 # ---------------------------------------------------------------------------- #
 module "teleport_aws" {
-  source = "../terraform-teleport-agent"
+  source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
 
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id

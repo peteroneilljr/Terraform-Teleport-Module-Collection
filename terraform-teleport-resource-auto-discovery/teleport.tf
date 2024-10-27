@@ -2,7 +2,7 @@
 # Create Teleport Agent with Discovery Service Running
 # ---------------------------------------------------------------------------- #
 module "auto_discovery_agent" {
-  source = "../terraform-teleport-agent"
+  source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
 
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id

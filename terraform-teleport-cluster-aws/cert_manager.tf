@@ -14,7 +14,7 @@ module "cert_manager" {
   cluster_issuer_name                    = "letsencrypt-production"
   cluster_issuer_private_key_secret_name = "letsencrypt-production-key"
   cluster_issuer_server                  = "https://acme-v02.api.letsencrypt.org/directory"
-  
+
   solvers = [
     {
       selector = {

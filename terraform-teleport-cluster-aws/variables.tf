@@ -1,4 +1,4 @@
-variable teleport_license_filepath {
+variable "teleport_license_filepath" {
   type        = string
   description = "description"
 }

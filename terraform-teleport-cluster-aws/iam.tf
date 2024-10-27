@@ -1,6 +1,6 @@
 // Policy to permit cluster to access DynamoDB tables (Cluster state, events, and SSL)
 resource "aws_iam_role_policy_attachment" "teleport_cluster_dynamodb" {
-  for_each = var.eks_managed_node_groups
+  for_each   = var.eks_managed_node_groups
   role       = each.value.iam_role_name
   policy_arn = aws_iam_policy.teleport_cluster_dynamodb.arn
 }
@@ -42,7 +42,7 @@ EOF
 
 // Policy to permit cluster to talk to S3 (Session recordings)
 resource "aws_iam_role_policy_attachment" "teleport_cluster_s3" {
-  for_each = var.eks_managed_node_groups
+  for_each   = var.eks_managed_node_groups
   role       = each.value.iam_role_name
   policy_arn = aws_iam_policy.teleport_cluster_s3.arn
 }
@@ -90,7 +90,7 @@ EOF
 // Auth server uses route53 to get certs for domain, this allows
 // read/write operations from the zone.
 resource "aws_iam_role_policy_attachment" "teleport_auth_route53" {
-  for_each = var.eks_managed_node_groups
+  for_each   = var.eks_managed_node_groups
   role       = each.value.iam_role_name
   policy_arn = aws_iam_policy.teleport_auth_route53.arn
 }

@@ -2,7 +2,6 @@
 # Create a password for Windows machine
 # ---------------------------------------------------------------------------- #
 resource "random_password" "windows" {
-  count  = var.create ? 1 : 0
   length = 40
 }
 # ---------------------------------------------------------------------------- #
@@ -11,12 +10,7 @@ resource "random_password" "windows" {
 module "windows_instances" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
-  create = var.create
-
-  for_each = toset([
-    "dev",
-    "prod",
-  ])
+  for_each = toset(var.windows_machines)
 
   name = "teleport-${each.key}"
 
@@ -28,7 +22,7 @@ module "windows_instances" {
   user_data_replace_on_change = true
   user_data = templatefile("${path.module}/config/windows.tftpl", {
     User     = "yoko"
-    Password = try(random_password.windows[0].result, "")
+    Password = random_password.windows.result
     Version  = var.teleport_version
     Proxy    = "https://${var.teleport_proxy_address}"
   })
@@ -42,6 +36,9 @@ module "windows_instances" {
     http_endpoint : "enabled"
     http_tokens : "required"
   }
+
+  tags = var.aws_tags
+
 }
 # ---------------------------------------------------------------------------- #
 # Create Teleport Agent to proxy windows machines
@@ -49,15 +46,16 @@ module "windows_instances" {
 module "windows_teleport" {
   source = "../terraform-teleport-agent"
 
-  create = var.create
-
-  cloud = "AWS"
-
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id
   aws_subnet_id         = var.aws_subnet_id
 
-  agent_nodename = "win-agent"
+  aws_key_pair = var.aws_key_name
+  aws_tags = var.aws_tags
+
+  teleport_agent_roles = ["Node", "WindowsDesktop"]
+
+  teleport_nodename = "windows-agent"
 
   teleport_proxy_address = var.teleport_proxy_address
   teleport_version       = var.teleport_version
@@ -65,19 +63,13 @@ module "windows_teleport" {
     "type" = "agent"
   }
 
-  teleport_agent_roles = ["WindowsDesktop"]
-
   teleport_windows_hosts = {
-    "development" = {
-      "env"  = "dev"
-      "addr" = var.create ? module.windows_instances["dev"].private_ip : "1.1.1.1"
-    }
-    "production" = {
-      "env"  = "prod"
-      "addr" = var.create ? module.windows_instances["prod"].private_ip : "1.1.1.1"
+    for index, host in var.windows_machines: 
+    host => {
+      "addr" = module.windows_instances["${host}"].private_ip
+      "labels" = {
+        "env"  = "${host}"
+      }
     }
   }
-
-  aws_key_pair = var.aws_key_name
-
 }

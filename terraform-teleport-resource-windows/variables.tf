@@ -1,8 +1,3 @@
-variable "create" {
-  description = "description"
-  type        = bool
-  default     = true
-}
 variable "aws_ami_windows" {
   type        = string
   description = "description"
@@ -29,5 +24,14 @@ variable "teleport_proxy_address" {
 }
 variable "teleport_version" {
   type        = string
+  description = "description"
+}
+variable "aws_tags" {
+  description = "description"
+  default     = {}
+}
+variable windows_machines {
+  type        = list(string)
+  default     = ["dev", "prod"]
   description = "description"
 }

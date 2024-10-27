@@ -14,7 +14,7 @@ module "rds_teleport" {
   aws_tags = var.aws_tags
 
 
-  agent_nodename = "rds-agent"
+  teleport_nodename = "rds-agent"
 
   teleport_proxy_address = var.teleport_proxy_address
   teleport_version       = var.teleport_version
@@ -22,20 +22,32 @@ module "rds_teleport" {
     "type" = "agent"
   }
 
-  teleport_agent_roles = ["Db"]
+  teleport_agent_roles = ["Node","Db"]
 
-  teleport_rds_hosts = {
+  teleport_databases = {
     "db-dev1" = {
-      "env"      = "dev"
-      "endpoint" = module.rds_postgresql.db_instance_endpoint
+      "uri" = module.rds_postgresql.db_instance_endpoint
+      "protocol" = "postgres"
+      "description" = "postgres"
+      "labels" = {
+        "env"      = "dev"
+      }
     }
     "db-dev2" = {
-      "env"      = "dev"
-      "endpoint" = module.rds_postgresql.db_instance_endpoint
+      "uri" = module.rds_postgresql.db_instance_endpoint
+      "protocol" = "postgres"
+      "description" = "postgres"
+      "labels" = {
+        "env"      = "dev"
+      }
     }
     "db-production" = {
-      "env"      = "prod"
-      "endpoint" = module.rds_postgresql.db_instance_endpoint
+      "uri" = module.rds_postgresql.db_instance_endpoint
+      "protocol" = "postgres"
+      "description" = "postgres"
+      "labels" = {
+        "env"      = "prod"
+      }
     }
   }
 }

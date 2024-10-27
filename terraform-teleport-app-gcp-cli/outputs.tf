@@ -1,4 +1,4 @@
-output content {
-  value       = module.teleport_gcp.content
+output userconfig {
+  value       = module.teleport_gcp.userconfig
   sensitive   = true
 }

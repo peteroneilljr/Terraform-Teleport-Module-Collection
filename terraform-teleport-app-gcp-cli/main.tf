@@ -29,36 +29,3 @@ resource "google_service_account_iam_binding" "teleport_vm_viewer" {
     google_service_account.teleport_cli.member,
   ]
 }
-
-
-# ---------------------------------------------------------------------------- #
-# Deploy Teleport Agent 
-# ---------------------------------------------------------------------------- #
-module "teleport_gcp" {
-  source = "../terraform-teleport-agent"
-
-  # create = local.teleport.gcp
-
-  cloud  = "GCP"
-  prefix = var.prefix
-
-  teleport_proxy_address = var.teleport_proxy_address
-  teleport_version       = var.teleport_version
-  teleport_ssh_labels = {
-    "type" = "agent"
-  }
-  teleport_agent_roles = ["App"]
-
-  agent_nodename = "gcp-agent"
-
-  gcp_service_account_email = google_service_account.teleport_cli.email
-  gcp_machine_type          = "e2-micro"
-  gcp_region                = var.gcp_region
-  teleport_gcp_apps = {
-    "google-cloud-cli" = {
-      "labels" = {
-        "cloud" = "gcp"
-      }
-    }
-  }
-}

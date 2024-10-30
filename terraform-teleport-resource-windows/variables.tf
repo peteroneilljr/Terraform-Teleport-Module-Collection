@@ -1,4 +1,4 @@
-variable "aws_key_name" {
+variable "aws_key_pair" {
   type        = string
   description = "description"
 }

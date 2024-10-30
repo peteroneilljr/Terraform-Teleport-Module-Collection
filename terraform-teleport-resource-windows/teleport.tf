@@ -8,7 +8,7 @@ module "windows_teleport" {
   aws_security_group_id = var.aws_security_group_id
   aws_subnet_id         = var.aws_subnet_id
 
-  aws_key_pair = var.aws_key_name
+  aws_key_pair = var.aws_key_pair
   aws_tags = var.aws_tags
 
   teleport_agent_roles = ["Node", "WindowsDesktop"]

@@ -8,6 +8,10 @@ output "iam_roles" {
     aws_iam_role.teleport_assume_ec2_admin.arn,
   ]
 }
+output "iam_console_access_profile" {
+  value       = aws_iam_instance_profile.console_access.name
+  description = "description"
+}
 output "iam_console_access_arn" {
   value       = aws_iam_role.console_access.arn
   description = "description"

@@ -2,6 +2,9 @@ variable "prefix" {
   type        = string
   description = "description"
 }
+# ---------------------------------------------------------------------------- #
+# AWS Vars
+# ---------------------------------------------------------------------------- #
 variable "aws_vpc_id" {
   type        = string
   description = "description"
@@ -18,6 +21,18 @@ variable "aws_key_pair" {
   type        = string
   description = "description"
   default     = null
+}
+variable "aws_tags" {
+  description = "description"
+  default     = {}
+}
+# ---------------------------------------------------------------------------- #
+# Teleport Vars
+# ---------------------------------------------------------------------------- #
+variable "teleport_agent_create" {
+  type        = bool
+  default     = false
+  description = "description"
 }
 variable "teleport_proxy_address" {
   type        = string
@@ -38,7 +53,24 @@ variable "teleport_version" {
   description = "Version of Teleport to install on each agent"
   default     = "16.4.2"
 }
-variable "aws_tags" {
+variable "teleport_apps" {
   description = "description"
-  default     = {}
+  default     = {
+    "awsconsole" = {
+      "uri" = "https://console.aws.amazon.com/"
+      "cloud" = "AWS"
+      "labels" = {
+        "cloud" = "aws"
+        "env"   = "dev"
+      }
+    }
+    "awsconsole-admin" = {
+      "uri" = "https://console.aws.amazon.com/"
+      "cloud" = "AWS"
+      "labels" = {
+        "cloud" = "aws"
+        "env"   = "prod"
+      }
+    }
+  }
 }

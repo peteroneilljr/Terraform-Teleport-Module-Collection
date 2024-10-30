@@ -160,8 +160,11 @@ module "teleport_aws" {
 
   teleport_agent_roles = ["Node", "App"]
 
+  teleport_cdn_address = var.teleport_cdn_address
+  teleport_version     = var.teleport_version
+  teleport_edition     = var.teleport_edition
+
   teleport_proxy_address = var.teleport_proxy_address
-  teleport_edition       = var.teleport_edition
   teleport_version       = var.teleport_version
   teleport_ssh_labels = {
     "type" = "agent"

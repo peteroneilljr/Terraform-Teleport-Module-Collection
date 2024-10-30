@@ -32,3 +32,13 @@ variable "teleport_edition" {
   description = "Edition of Teleport, cloud, enterprise or oss"
   default     = "cloud"
 }
+variable "teleport_cdn_address" {
+  type        = string
+  description = "Download script for Teleport"
+  default     = "https://cdn.teleport.dev/install-v16.4.2.sh"
+}
+variable "teleport_version" {
+  type        = string
+  description = "Version of Teleport to install on each agent"
+  default     = "16.4.2"
+}

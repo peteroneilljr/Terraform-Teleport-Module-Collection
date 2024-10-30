@@ -15,7 +15,7 @@ module "windows_instances" {
   name = "teleport-${each.key}"
 
   instance_type          = "t3.small"
-  key_name               = var.aws_key_name
+  key_name               = var.aws_key_pair
   vpc_security_group_ids = [var.aws_security_group_id]
   subnet_id              = var.aws_subnet_id
 

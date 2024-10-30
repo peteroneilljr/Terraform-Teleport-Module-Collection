@@ -165,7 +165,6 @@ module "teleport_aws" {
   teleport_edition     = var.teleport_edition
 
   teleport_proxy_address = var.teleport_proxy_address
-  teleport_version       = var.teleport_version
   teleport_ssh_labels = {
     "type" = "agent"
   }

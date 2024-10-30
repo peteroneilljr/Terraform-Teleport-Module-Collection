@@ -31,3 +31,8 @@ variable "teleport_version" {
   type        = string
   description = "description"
 }
+variable "teleport_agent_create" {
+  type        = bool
+  default     = false
+  description = "description"
+}

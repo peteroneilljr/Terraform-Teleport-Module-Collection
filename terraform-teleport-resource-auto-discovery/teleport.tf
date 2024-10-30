@@ -8,8 +8,11 @@ module "auto_discovery_agent" {
   aws_security_group_id = var.aws_security_group_id
   aws_subnet_id         = var.aws_subnet_id
 
-  teleport_nodename = "discovery-agent"
-
+  teleport_node_name = "discovery-agent"
+  teleport_node_labels = {
+    "type" = "agent"
+  }
+  
   teleport_agent_roles = ["Node", "Discovery"]
 
   teleport_discovery_groups = {
@@ -26,11 +29,7 @@ module "auto_discovery_agent" {
 
   teleport_proxy_address         = var.teleport_proxy_address
   teleport_version               = var.teleport_version
-  teleport_ssh_labels = {
-    "type" = "agent"
-  }
+
   aws_key_pair         = var.aws_key_name
   aws_instance_profile = aws_iam_instance_profile.auto_discovery.name
-
-
 }

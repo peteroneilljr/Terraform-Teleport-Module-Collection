@@ -1,28 +1,30 @@
-
-module "rds_teleport" {
-  source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+module "teleport_agent_rds" {
+  # source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+  source = "../terraform-teleport-agent"
 
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id
   aws_subnet_id         = var.aws_subnet_ids[0]
 
-  public_ip = false
+  public_ip = true
 
-  aws_key_pair         = var.aws_key_name
+  teleport_agent_roles = ["Node","Db"]
+
+  teleport_version     = var.teleport_version
+
+  teleport_proxy_address = var.teleport_proxy_address
+
+  aws_key_pair         = var.aws_key_pair
   aws_instance_profile = aws_iam_instance_profile.rds_postgresql.name
 
   aws_tags = var.aws_tags
 
-
-  teleport_nodename = "rds-agent"
-
-  teleport_proxy_address = var.teleport_proxy_address
-  teleport_version       = var.teleport_version
-  teleport_ssh_labels = {
+  teleport_node_name = "rds-agent"
+  teleport_node_labels = {
     "type" = "agent"
   }
 
-  teleport_agent_roles = ["Node","Db"]
+  teleport_agent_packages = ["postgresql15", "postgresql15-server"]
 
   teleport_databases = {
     "db-dev1" = {

@@ -10,11 +10,15 @@ variable "aws_security_group_id" {
   type        = string
   description = "description"
 }
-variable "aws_key_name" {
+variable "aws_key_pair" {
   type        = string
   description = "description"
 }
 variable "aws_subnet_ids" {
+  type        = list(string)
+  description = "description"
+}
+variable "rds_users" {
   type        = list(string)
   description = "description"
 }
@@ -30,4 +34,15 @@ variable "teleport_version" {
   type        = string
   description = "description"
 }
-
+# ---------------------------------------------------------------------------- #
+# SSH Access
+# ---------------------------------------------------------------------------- #
+variable "private_key_file" {
+  type        = string
+  description = "Private key for the ssh connection"
+}
+variable public_key_file {
+  type        = string
+  description = "Public key for the ssh connection"
+  default     = null
+}

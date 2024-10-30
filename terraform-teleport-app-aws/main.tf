@@ -169,6 +169,8 @@ module "teleport_aws" {
     "type" = "agent"
   }
 
+  tags = var.aws_tags
+
   aws_key_pair         = var.aws_key_pair
   aws_instance_profile = aws_iam_instance_profile.console_access.name
 

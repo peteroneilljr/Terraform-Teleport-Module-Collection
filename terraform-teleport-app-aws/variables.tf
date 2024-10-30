@@ -38,3 +38,7 @@ variable "teleport_version" {
   description = "Version of Teleport to install on each agent"
   default     = "16.4.2"
 }
+variable "aws_tags" {
+  description = "description"
+  default     = {}
+}

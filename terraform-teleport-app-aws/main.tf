@@ -2,6 +2,8 @@
 # EC2 agent_nodename Instance Profile - Console Access
 # ---------------------------------------------------------------------------- #
 resource "aws_iam_role" "console_access" {
+  count = can(var.aws_iam_role_name) ? 0:1
+
   name               = local.aws_role.console
   assume_role_policy = <<EOF
 {
@@ -22,7 +24,11 @@ EOF
 
 resource "aws_iam_instance_profile" "console_access" {
   name = "${local.aws_role.console}Profile"
-  role = aws_iam_role.console_access.name
+  role = data.aws_iam_role.console_access.name
+}
+
+data "aws_iam_role" "console_access" {
+  name  = try(var.aws_iam_role_name, aws_iam_role.console_access[0].name)
 }
 
 # ---------------------------------------------------------------------------- #
@@ -37,7 +43,7 @@ resource "aws_iam_role" "teleport_assume_ro" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${aws_iam_role.console_access.arn}"
+        "AWS": "${data.aws_iam_role.console_access.arn}"
       },
       "Action": "sts:AssumeRole"
     }
@@ -61,7 +67,7 @@ resource "aws_iam_role" "teleport_assume_admin" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${aws_iam_role.console_access.arn}"
+        "AWS": "${data.aws_iam_role.console_access.arn}"
       },
       "Action": "sts:AssumeRole"
     }
@@ -86,7 +92,7 @@ resource "aws_iam_role" "teleport_assume_db_admin" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${aws_iam_role.console_access.arn}"
+        "AWS": "${data.aws_iam_role.console_access.arn}"
       },
       "Action": "sts:AssumeRole"
     }
@@ -111,7 +117,7 @@ resource "aws_iam_role" "teleport_assume_network_admin" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${aws_iam_role.console_access.arn}"
+        "AWS": "${data.aws_iam_role.console_access.arn}"
       },
       "Action": "sts:AssumeRole"
     }
@@ -135,7 +141,7 @@ resource "aws_iam_role" "teleport_assume_ec2_admin" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${aws_iam_role.console_access.arn}"
+        "AWS": "${data.aws_iam_role.console_access.arn}"
       },
       "Action": "sts:AssumeRole"
     }

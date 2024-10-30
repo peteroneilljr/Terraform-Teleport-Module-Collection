@@ -22,6 +22,11 @@ variable "aws_key_pair" {
   description = "description"
   default     = null
 }
+variable "aws_iam_role_name" {
+  type        = string
+  description = "Use an externally managed role to attach to the instance profile"
+  default     = null
+}
 variable "aws_tags" {
   description = "description"
   default     = {}

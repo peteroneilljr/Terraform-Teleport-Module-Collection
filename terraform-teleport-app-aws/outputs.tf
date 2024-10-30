@@ -13,7 +13,7 @@ output "iam_console_access_profile" {
   description = "description"
 }
 output "iam_console_access_arn" {
-  value       = aws_iam_role.console_access.arn
+  value       = data.aws_iam_role.console_access.arn
   description = "description"
 }
 output "iam_admin_arn" {

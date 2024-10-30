@@ -2,8 +2,7 @@
 # Deploy Teleport Agent 
 # ---------------------------------------------------------------------------- #
 module "teleport_agent" {
-  source = "../terraform-teleport-agent"
-  # source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+  source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
 
   count = var.teleport_agent_create ? 1:0
 

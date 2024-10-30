@@ -29,7 +29,7 @@ module "windows_instances" {
 
   get_password_data = true
 
-  ami                = var.aws_ami_windows
+  ami                = aws_ami.windows.image_id
   ignore_ami_changes = true
 
   metadata_options = {
@@ -71,5 +71,22 @@ module "windows_teleport" {
         "env"  = "${host}"
       }
     }
+  }
+}
+# ---------------------------------------------------------------------------- #
+# Windows AMI Lookup
+# ---------------------------------------------------------------------------- #
+data "aws_ami" "windows" {
+  owners      = ["amazon"]
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["Windows_Server-2019-English-Full-Base*"]
+  }
+
+  filter {
+    name   = "platform"
+    values = ["windows"]
   }
 }

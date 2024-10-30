@@ -1,7 +1,3 @@
-variable "aws_ami_windows" {
-  type        = string
-  description = "description"
-}
 variable "aws_key_name" {
   type        = string
   description = "description"
@@ -18,14 +14,6 @@ variable "aws_security_group_id" {
   type        = string
   description = "description"
 }
-variable "teleport_proxy_address" {
-  type        = string
-  description = "description"
-}
-variable "teleport_version" {
-  type        = string
-  description = "description"
-}
 variable "aws_tags" {
   description = "description"
   default     = {}
@@ -33,5 +21,13 @@ variable "aws_tags" {
 variable windows_machines {
   type        = list(string)
   default     = ["dev", "prod"]
+  description = "description"
+}
+variable "teleport_proxy_address" {
+  type        = string
+  description = "description"
+}
+variable "teleport_version" {
+  type        = string
   description = "description"
 }

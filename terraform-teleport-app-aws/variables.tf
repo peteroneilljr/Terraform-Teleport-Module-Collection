@@ -27,3 +27,8 @@ variable "teleport_version" {
   type        = string
   description = "description"
 }
+variable "teleport_edition" {
+  type        = string
+  description = "Edition of Teleport, cloud, enterprise or oss"
+  default     = "cloud"
+}

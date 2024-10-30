@@ -29,7 +29,7 @@ module "windows_instances" {
 
   get_password_data = true
 
-  ami                = aws_ami.windows.image_id
+  ami                = data.aws_ami.windows.image_id
   ignore_ami_changes = true
 
   metadata_options = {

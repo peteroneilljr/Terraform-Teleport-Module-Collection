@@ -35,7 +35,3 @@ variable "aws_subnet_id" {
   type        = string
   description = "description"
 }
-variable "aws_ami" {
-  type        = string
-  description = "description"
-}

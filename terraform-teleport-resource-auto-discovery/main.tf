@@ -174,7 +174,7 @@ module "auto_discovery_nodes" {
   vpc_security_group_ids = [var.aws_security_group_id]
   subnet_id              = var.aws_subnet_id
 
-  ami                = var.aws_ami
+  ami                = data.aws_ami.amzn_linux.image_id
   ignore_ami_changes = true
 
   metadata_options = {
@@ -188,4 +188,27 @@ module "auto_discovery_nodes" {
     "discovery" = "ec2"
     "os"        = "amzn-linux"
   }
+}
+# ---------------------------------------------------------------------------- #
+# Data AMI Lookup
+# ---------------------------------------------------------------------------- #
+data "aws_ami" "amzn_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023.*-x86_64"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
 }

@@ -12,7 +12,7 @@ data "aws_eks_node_group" "this" {
 
 resource "aws_iam_role_policy_attachment" "teleport_cluster_dynamodb" {
   for_each   = data.aws_eks_node_group.this
-  role       = split("/", data.aws_eks_node_group.this[count.index].node_role_arn)[1]
+  role       = split("/", each.value.node_role_arn)[1]
   policy_arn = aws_iam_policy.teleport_cluster_dynamodb.arn
 }
 resource "aws_iam_policy" "teleport_cluster_dynamodb" {
@@ -54,7 +54,7 @@ EOF
 // Policy to permit cluster to talk to S3 (Session recordings)
 resource "aws_iam_role_policy_attachment" "teleport_cluster_s3" {
   for_each   = data.aws_eks_node_group.this
-  role       = split("/", data.aws_eks_node_group.this[count.index].node_role_arn)[1]
+  role       = split("/", each.value.node_role_arn)[1]
   policy_arn = aws_iam_policy.teleport_cluster_s3.arn
 }
 resource "aws_iam_policy" "teleport_cluster_s3" {
@@ -102,7 +102,7 @@ EOF
 // read/write operations from the zone.
 resource "aws_iam_role_policy_attachment" "teleport_auth_route53" {
   for_each   = data.aws_eks_node_group.this
-  role       = split("/", data.aws_eks_node_group.this[count.index].node_role_arn)[1]
+  role       = split("/", each.value.node_role_arn)[1]
   policy_arn = aws_iam_policy.teleport_auth_route53.arn
 }
 resource "aws_iam_policy" "teleport_auth_route53" {

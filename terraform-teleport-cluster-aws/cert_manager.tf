@@ -9,6 +9,7 @@ module "cert_manager" {
   source = "terraform-iaac/cert-manager/kubernetes"
 
   create_namespace = false
+  namespace_name   = kubernetes_namespace.cert_manager.id
 
   cluster_issuer_email                   = var.teleport_email
   cluster_issuer_name                    = "letsencrypt-production"

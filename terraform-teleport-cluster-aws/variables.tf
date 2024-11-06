@@ -23,9 +23,6 @@ variable "eks_cluster_name" {
   description = "value"
   type        = string
 }
-variable "eks_managed_node_groups" {
-  description = "value"
-}
 variable "aws_domain_name" {
   description = "domain name to query for DNS"
   type        = string

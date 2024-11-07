@@ -4,7 +4,7 @@
 module "teleport_agent" {
   source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
 
-  count = var.teleport_agent_create ? 1:0
+  count = var.teleport_agent_create ? 1 : 0
 
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id
@@ -17,8 +17,8 @@ module "teleport_agent" {
   teleport_edition     = var.teleport_edition
 
   teleport_proxy_address = var.teleport_proxy_address
-  
-  teleport_node_enable  = true
+
+  teleport_node_enable = true
   teleport_node_name   = "${var.prefix}-agent"
   teleport_node_labels = {
     "type" = "agent"

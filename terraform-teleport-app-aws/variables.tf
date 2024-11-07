@@ -60,9 +60,9 @@ variable "teleport_version" {
 }
 variable "teleport_apps" {
   description = "description"
-  default     = {
+  default = {
     "awsconsole" = {
-      "uri" = "https://console.aws.amazon.com/"
+      "uri"   = "https://console.aws.amazon.com/"
       "cloud" = "AWS"
       "labels" = {
         "cloud" = "aws"
@@ -70,7 +70,7 @@ variable "teleport_apps" {
       }
     }
     "awsconsole-admin" = {
-      "uri" = "https://console.aws.amazon.com/"
+      "uri"   = "https://console.aws.amazon.com/"
       "cloud" = "AWS"
       "labels" = {
         "cloud" = "aws"

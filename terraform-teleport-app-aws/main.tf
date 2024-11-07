@@ -2,7 +2,7 @@
 # EC2 agent_nodename Instance Profile - Console Access
 # ---------------------------------------------------------------------------- #
 resource "aws_iam_role" "console_access" {
-  count = can(var.aws_iam_role_name) ? 0:1
+  count = can(var.aws_iam_role_name) ? 0 : 1
 
   name               = local.aws_role.console
   assume_role_policy = <<EOF
@@ -28,7 +28,7 @@ resource "aws_iam_instance_profile" "console_access" {
 }
 
 data "aws_iam_role" "console_access" {
-  name  = try(var.aws_iam_role_name, aws_iam_role.console_access[0].name)
+  name = try(var.aws_iam_role_name, aws_iam_role.console_access[0].name)
 }
 
 # ---------------------------------------------------------------------------- #

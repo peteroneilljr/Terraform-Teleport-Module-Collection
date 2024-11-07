@@ -6,7 +6,7 @@ resource "aws_iam_role_policy_attachment" "managed_instance" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 resource "aws_iam_role" "managed_instance" {
-  name  = "${var.prefix}ManagedInstanceRole"
+  name = "${var.prefix}ManagedInstanceRole"
 
   assume_role_policy = <<EOF
 {
@@ -25,8 +25,8 @@ resource "aws_iam_role" "managed_instance" {
 EOF
 }
 resource "aws_iam_instance_profile" "managed_instance" {
-  name  = "${var.prefix}ManagedInstanceProfile"
-  role  = aws_iam_role.managed_instance.name
+  name = "${var.prefix}ManagedInstanceProfile"
+  role = aws_iam_role.managed_instance.name
 }
 
 # ---------------------------------------------------------------------------- #

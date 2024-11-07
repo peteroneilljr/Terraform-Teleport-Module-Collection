@@ -6,6 +6,7 @@ cert generation and renewal.
 
 // DynamoDB table for storing cluster state
 resource "aws_dynamodb_table" "teleport_backend" {
+  count          = can(var.teleport_backend_db) ? 1 : 0
   name           = "${var.eks_cluster_name}-backend"
   read_capacity  = 10
   write_capacity = 10
@@ -52,6 +53,7 @@ resource "aws_dynamodb_table" "teleport_backend" {
 
 // DynamoDB table for storing cluster events
 resource "aws_dynamodb_table" "teleport_events" {
+  count          = can(var.teleport_events_db) ? 1 : 0
   name           = "${var.eks_cluster_name}-events"
   read_capacity  = 10
   write_capacity = 10

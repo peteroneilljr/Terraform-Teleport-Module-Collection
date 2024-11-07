@@ -11,10 +11,6 @@ variable "teleport_version" {
   type        = string
   default     = "16.4.2"
 }
-variable "aws_region" {
-  description = "value"
-  type        = string
-}
 variable "aws_route53_zone_id" {
   description = "value"
   type        = string
@@ -30,4 +26,19 @@ variable "aws_domain_name" {
 variable "teleport_subdomain" {
   description = "subdomain to create in the provided aws domain"
   type        = string
+}
+variable "teleport_backend_db" {
+  description = "value"
+  type        = string
+  default     = null
+}
+variable "teleport_events_db" {
+  description = "value"
+  type        = string
+  default     = null
+}
+variable "teleport_recordings_bucket" {
+  description = "value"
+  type        = string
+  default     = null
 }

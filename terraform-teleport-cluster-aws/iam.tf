@@ -6,7 +6,7 @@ data "aws_eks_node_groups" "this" {
 data "aws_eks_node_group" "this" {
   for_each = data.aws_eks_node_groups.this.names
 
-  cluster_name = var.eks_cluster_name
+  cluster_name    = var.eks_cluster_name
   node_group_name = each.value
 }
 

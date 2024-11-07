@@ -3,6 +3,9 @@ data "local_sensitive_file" "license" {
   filename = var.teleport_license_filepath
 }
 
+# Get aws region
+data "aws_region" "current" {}
+
 # https://goteleport.com/docs/ver/15.x/deploy-a-cluster/helm-deployments/kubernetes-cluster/#install-the-teleport-cluster-helm-chart
 # creates namespace for teleport cluster 
 resource "kubernetes_namespace" "teleport_cluster" {
@@ -28,6 +31,13 @@ resource "kubernetes_secret" "license" {
   type = "Opaque"
 }
 
+locals {
+  backendTable           = try(teleport_backend_db, aws_dynamodb_table.teleport_backend[0].name)
+  auditLogTable          = try(teleport_events_db, aws_dynamodb_table.teleport_events[0].name)
+  sessionRecordingBucket = try(teleport_recordings_bucket, aws_s3_bucket.teleport_sessions[0].bucket)
+}
+
+
 # defines helm release for teleport cluster
 # https://goteleport.com/docs/reference/helm-reference/teleport-cluster/#aws
 resource "helm_release" "teleport_cluster" {
@@ -47,18 +57,18 @@ enterprise: true
 clusterName: "${var.teleport_subdomain}.${var.aws_domain_name}"                   # Name of your cluster. Use the FQDN you intend to configure in DNS below.
 proxyListenerMode: multiplex
 aws:
-  region: ${var.aws_region}                # AWS region
-  backendTable: ${aws_dynamodb_table.teleport_backend.name} # DynamoDB table to use for the Teleport backend
-  auditLogTable: ${aws_dynamodb_table.teleport_events.name}             # DynamoDB table to use for the Teleport audit log (must be different to the backend table)
+  region: ${data.aws_region.current.name}                # AWS region
+  backendTable: ${local.backendTable} # DynamoDB table to use for the Teleport backend
+  auditLogTable: ${local.auditLogTable}             # DynamoDB table to use for the Teleport audit log (must be different to the backend table)
   auditLogMirrorOnStdout: false                   # Whether to mirror audit log entries to stdout in JSON format (useful for external log collectors)
-  sessionRecordingBucket: ${aws_s3_bucket.teleport_sessions.bucket}  # S3 bucket to use for Teleport session recordings
+  sessionRecordingBucket: ${local.sessionRecordingBucket}  # S3 bucket to use for Teleport session recordings
   backups: true                                   # Whether or not to turn on DynamoDB backups
   dynamoAutoScaling: false                        # Whether Teleport should configure DynamoDB's autoscaling.
 highAvailability:
   replicaCount: 2                                 # Number of replicas to configure
   certManager:
-    issuerKind: ClusterIssuer
     enabled: true                                 # Enable cert-manager support to get TLS certificates
+    issuerKind: ClusterIssuer
     issuerName: letsencrypt-production            # Name of the cert-manager Issuer to use (as configured above)
 # If you are running Kubernetes 1.23 or above, disable PodSecurityPolicies
 podSecurityPolicy:

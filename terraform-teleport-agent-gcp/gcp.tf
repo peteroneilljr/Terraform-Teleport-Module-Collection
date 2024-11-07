@@ -1,7 +1,7 @@
 resource "google_compute_instance" "teleport_agent" {
   name         = "${var.prefix}-${var.teleport_nodename}"
   machine_type = var.gcp_machine_type
-  zone = "${var.gcp_region}-a"
+  zone         = "${var.gcp_region}-a"
 
 
   boot_disk {

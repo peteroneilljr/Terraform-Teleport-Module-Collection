@@ -1,6 +1,6 @@
 locals {
   ami = {
-    ubuntu = data.aws_ami.ubuntu.id
+    ubuntu     = data.aws_ami.ubuntu.id
     amzn_linux = data.aws_ami.amzn_linux.id
   }
 }

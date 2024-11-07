@@ -36,7 +36,7 @@ variable "teleport_agent_roles" {
 variable "teleport_ssh_labels" {
   type        = map(string)
   description = "Teleport ssh labels"
-  default     = {
+  default = {
     "createdBy" = "IAC"
   }
 }
@@ -46,11 +46,11 @@ variable "teleport_ssh_labels" {
 
 variable "teleport_windows_hosts" {
   type = map(object({
-      env  = string
-      addr = string
+    env  = string
+    addr = string
   }))
   description = "Windows hosts to add"
-  default = {}
+  default     = {}
 }
 # ---------------------------------------------------------------------------- #
 # AWS
@@ -58,11 +58,11 @@ variable "teleport_windows_hosts" {
 
 variable "teleport_aws_apps" {
   type = map(object({
-      uri  = string
-      labels = map(string)
+    uri    = string
+    labels = map(string)
   }))
   description = "AWS Appps to add"
-  default = {}
+  default     = {}
 }
 # ---------------------------------------------------------------------------- #
 # GCP
@@ -70,10 +70,10 @@ variable "teleport_aws_apps" {
 
 variable "teleport_gcp_apps" {
   type = map(object({
-      labels    = map(string)
+    labels = map(string)
   }))
   description = "GCP Appps to add"
-  default = {}
+  default     = {}
 }
 # ---------------------------------------------------------------------------- #
 # RDS
@@ -81,11 +81,11 @@ variable "teleport_gcp_apps" {
 
 variable "teleport_rds_hosts" {
   type = map(object({
-      endpoint = string
-      env      = string
+    endpoint = string
+    env      = string
   }))
   description = "RDS connects to add to teleprot"
-  default = {}
+  default     = {}
 }
 # ---------------------------------------------------------------------------- #
 # Module settings
@@ -110,10 +110,10 @@ variable "gcp_service_account_email" {
 variable "gcp_machine_type" {
   type        = string
   description = "Machine type for GCP VM Instance"
-  default = "e2-micro"
+  default     = "e2-micro"
 }
 variable "gcp_region" {
   type        = string
   description = "Region to deploy VM instance, zone is always -a"
-  default = "us-central1"
+  default     = "us-central1"
 }

@@ -46,7 +46,7 @@ module "rds_postgresql" {
 }
 
 
-resource null_resource teleport_grant_iam {
+resource "null_resource" "teleport_grant_iam" {
   for_each = toset(var.rds_users)
 
   triggers = {
@@ -54,9 +54,9 @@ resource null_resource teleport_grant_iam {
   }
   provisioner "remote-exec" {
     connection {
-      type     = "ssh"
-      user     = "ec2-user"
-      host     = module.teleport_agent_rds.teleport_agent_public_ip
+      type        = "ssh"
+      user        = "ec2-user"
+      host        = module.teleport_agent_rds.teleport_agent_public_ip
       private_key = var.private_key_file
     }
     inline = [
@@ -71,9 +71,9 @@ resource null_resource teleport_grant_iam {
   provisioner "remote-exec" {
 
     connection {
-      type     = "ssh"
-      user     = "ec2-user"
-      host     = module.teleport_agent_rds.teleport_agent_public_ip
+      type        = "ssh"
+      user        = "ec2-user"
+      host        = module.teleport_agent_rds.teleport_agent_public_ip
       private_key = var.private_key_file
     }
     inline = [

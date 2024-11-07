@@ -7,9 +7,9 @@ module "teleport_agent_rds" {
 
   public_ip = true
 
-  teleport_agent_roles = ["Node","Db"]
+  teleport_agent_roles = ["Node", "Db"]
 
-  teleport_version     = var.teleport_version
+  teleport_version = var.teleport_version
 
   teleport_proxy_address = var.teleport_proxy_address
 
@@ -27,27 +27,27 @@ module "teleport_agent_rds" {
 
   teleport_databases = {
     "db-dev1" = {
-      "uri" = module.rds_postgresql.db_instance_endpoint
-      "protocol" = "postgres"
+      "uri"         = module.rds_postgresql.db_instance_endpoint
+      "protocol"    = "postgres"
       "description" = "postgres"
       "labels" = {
-        "env"      = "dev"
+        "env" = "dev"
       }
     }
     "db-dev2" = {
-      "uri" = module.rds_postgresql.db_instance_endpoint
-      "protocol" = "postgres"
+      "uri"         = module.rds_postgresql.db_instance_endpoint
+      "protocol"    = "postgres"
       "description" = "postgres"
       "labels" = {
-        "env"      = "dev"
+        "env" = "dev"
       }
     }
     "db-production" = {
-      "uri" = module.rds_postgresql.db_instance_endpoint
-      "protocol" = "postgres"
+      "uri"         = module.rds_postgresql.db_instance_endpoint
+      "protocol"    = "postgres"
       "description" = "postgres"
       "labels" = {
-        "env"      = "prod"
+        "env" = "prod"
       }
     }
   }

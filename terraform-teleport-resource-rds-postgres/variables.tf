@@ -41,7 +41,7 @@ variable "private_key_file" {
   type        = string
   description = "Private key for the ssh connection"
 }
-variable public_key_file {
+variable "public_key_file" {
   type        = string
   description = "Public key for the ssh connection"
   default     = null

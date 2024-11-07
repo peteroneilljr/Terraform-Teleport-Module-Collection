@@ -18,7 +18,7 @@ variable "aws_tags" {
   description = "description"
   default     = {}
 }
-variable windows_machines {
+variable "windows_machines" {
   type        = list(string)
   default     = ["dev", "prod"]
   description = "description"

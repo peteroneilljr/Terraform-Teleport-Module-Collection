@@ -19,10 +19,16 @@ resource "google_compute_instance" "teleport_agent" {
 
   metadata_startup_script = local_file.teleport_config.content
 
-  service_account {
-    email  = var.gcp_service_account_email
-    scopes = ["cloud-platform"]
+  allow_stopping_for_update = true
+
+  dynamic "service_account" {
+    for_each = can(var.gcp_service_account_email) ? [1]:[]
+    content {
+      email  = var.gcp_service_account_email
+      scopes = ["cloud-platform"]
+    }
   }
+
   lifecycle {
     ignore_changes = [
       metadata,

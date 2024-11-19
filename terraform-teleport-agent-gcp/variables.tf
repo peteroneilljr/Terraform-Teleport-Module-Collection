@@ -106,6 +106,7 @@ variable "public_ip" {
 variable "gcp_service_account_email" {
   type        = string
   description = "Service Account with ability to impersonate other service accounts"
+  default = null
 }
 variable "gcp_machine_type" {
   type        = string

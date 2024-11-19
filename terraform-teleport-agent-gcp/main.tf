@@ -33,9 +33,8 @@ resource "local_file" "teleport_config" {
   ${local.install.teleport}
   ${local.resources.start}
   ${local.resources.ssh}
-  ${length(var.teleport_windows_hosts) > 0 ? local.resources.rdp : ""}
-  ${length(var.teleport_aws_apps) > 0 ? local.resources.aws : ""}
   ${length(var.teleport_gcp_apps) > 0 ? local.resources.gcp : ""}
+  ${local.resources.gcp_db}
   ${local.resources.proxy}
   ${local.resources.end}
   ${local.commands.systemctl}

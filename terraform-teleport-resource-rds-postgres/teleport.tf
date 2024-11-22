@@ -1,6 +1,8 @@
 module "teleport_agent_rds" {
   source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
 
+  count = var.teleport_agent_enable ? 1:0
+
   aws_vpc_id            = var.aws_vpc_id
   aws_security_group_id = var.aws_security_group_id
   aws_subnet_id         = var.aws_subnet_ids[0]

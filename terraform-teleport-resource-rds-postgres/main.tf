@@ -56,7 +56,7 @@ resource "null_resource" "teleport_grant_iam" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      host        = module.teleport_agent_rds.teleport_agent_public_ip
+      host        = module.teleport_agent_rds[0].teleport_agent_public_ip
       private_key = var.private_key_file
     }
     inline = [
@@ -73,7 +73,7 @@ resource "null_resource" "teleport_grant_iam" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      host        = module.teleport_agent_rds.teleport_agent_public_ip
+      host        = module.teleport_agent_rds[0].teleport_agent_public_ip
       private_key = var.private_key_file
     }
     inline = [
@@ -82,4 +82,8 @@ resource "null_resource" "teleport_grant_iam" {
       "psql -c 'CREATE USER ${each.key}; GRANT rds_iam TO ${each.key};'"
     ]
   }
+
+  depends_on = [
+    module.teleport_agent_rds[0]
+  ]
 }

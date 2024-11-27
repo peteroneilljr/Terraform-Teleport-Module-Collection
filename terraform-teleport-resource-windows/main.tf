@@ -21,10 +21,11 @@ module "windows_instances" {
 
   user_data_replace_on_change = true
   user_data = templatefile("${path.module}/config/windows.tftpl", {
-    User     = "yoko"
+    Users    = ["yoko", "peter"]
     Password = random_password.windows.result
     Version  = var.teleport_version
     Proxy    = "https://${var.teleport_proxy_address}"
+    ComputerName = "teleport-${each.key}"
   })
 
   get_password_data = true

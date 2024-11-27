@@ -7,16 +7,6 @@
 # Log the script execution to C:\UserData.log for debugging purposes.
 Start-Transcript -Path "C:\UserData.log" -Append
 
-# Define user credentials
-$User = "${User}"
-
-# Super strong plane text password here (yes this isn't secure at all)
-$Password = ConvertTo-SecureString "${Password}" -AsPlainText -Force
-
-# Create a new local user and add them to required groups
-New-LocalUser -Name $User -Password $Password -FullName $User
-Add-LocalGroupMember -Group "Remote Desktop Users” -Member $User
-Add-LocalGroupMember -Group "Administrators" -Member $User
 
 # Set security protocol to TLS 1.2 for secure web requests
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -37,9 +27,24 @@ cd teleport-v${Version}-windows-amd64-bin
 .\tsh.exe version
 .\tctl.exe version
 
-# Move binaries to the user's folder for easy access
-Move-Item -Path .\tsh.exe -Destination C:\Users\${User}\tsh.exe
-Move-Item -Path .\tctl.exe -Destination C:\Users\${User}\tctl.exe
+%{~ for Index, User in Users ~}
+
+# Define user credentials
+$User = "${User}"
+
+# Super strong plane text password here (yes this isn't secure at all)
+$Password = ConvertTo-SecureString "${Password}" -AsPlainText -Force
+
+# Create a new local user and add them to required groups
+New-LocalUser -Name $User -Password $Password -FullName $User
+Add-LocalGroupMember -Group "Remote Desktop Users” -Member $User
+Add-LocalGroupMember -Group "Administrators" -Member $User
+
+# Copy binaries to the user's folder for easy access
+Copy-Item -Path .\tsh.exe -Destination C:\Users\${User}\tsh.exe
+Copy-Item -Path .\tctl.exe -Destination C:\Users\${User}\tctl.exe
+
+%{~ endfor ~}
 
 # Fetch and install the Teleport certificate
 Invoke-WebRequest -Uri ${Proxy}/webapi/auth/export?type=windows -OutFile teleport.cer
@@ -49,7 +54,7 @@ Invoke-WebRequest -Uri https://cdn.teleport.dev/teleport-windows-auth-setup-v${V
 .\teleport-windows-auth-setup.exe install --cert=teleport.cer -r
 
 # Rename the computer and force restart
-Rename-Computer -NewName "teleport-desktop-example" -Force -Restart
+Rename-Computer -NewName "${ComputerName}" -Force -Restart
 
 </powershell>
 <persist>false</persist> #prevents script from being ran on power cycle

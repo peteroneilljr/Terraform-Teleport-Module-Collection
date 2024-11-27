@@ -5,6 +5,7 @@ variable "prefix" {
 variable "rds_users" {
   type        = list(string)
   description = "description"
+  default = []
 }
 # ---------------------------------------------------------------------------- #
 # AWS

@@ -1,3 +1,9 @@
+
+data "aws_route53_zone" "main" {
+  name = var.aws_domain_name
+}
+data "aws_region" "current" {}
+
 resource "kubernetes_namespace" "cert_manager" {
   metadata {
     name = "cert-manager"
@@ -25,8 +31,8 @@ module "cert_manager" {
       }
       dns01 = {
         route53 = {
-          region       = (var.aws_region)
-          hostedZoneID = (var.aws_route53_zone_id)
+          region       = (data.aws_region.current.name)
+          hostedZoneID = (data.aws_route53_zone.main.zone_id)
         }
       }
     }

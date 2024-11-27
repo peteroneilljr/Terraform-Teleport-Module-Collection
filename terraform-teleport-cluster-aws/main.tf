@@ -3,9 +3,6 @@ data "local_sensitive_file" "license" {
   filename = var.teleport_license_filepath
 }
 
-# Get aws region
-data "aws_region" "current" {}
-
 # https://goteleport.com/docs/ver/15.x/deploy-a-cluster/helm-deployments/kubernetes-cluster/#install-the-teleport-cluster-helm-chart
 # creates namespace for teleport cluster 
 resource "kubernetes_namespace" "teleport_cluster" {

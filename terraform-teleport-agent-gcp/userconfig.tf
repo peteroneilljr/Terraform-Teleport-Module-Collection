@@ -48,7 +48,7 @@ locals {
       TELEPORT_EDITION="cloud"
       TELEPORT_DOMAIN="${var.teleport_proxy_address}"
       TELEPORT_VERSION="$(curl https://$TELEPORT_DOMAIN/v1/webapi/automaticupgrades/channel/stable/cloud/version | sed 's/v//')"
-      curl ${var.teleport_cdn_address} | bash -s $TELEPORT_VERSION $TELEPORT_EDITION
+      curl "https://cdn.teleport.dev/install-v$TELEPORT_VERSION.sh" | bash -s $TELEPORT_VERSION $TELEPORT_EDITION
       INSTALL
   # ---------------------------------------------------------------------------- #
   }
@@ -103,14 +103,14 @@ PROXY
 app_service:
   enabled: "yes"
   apps:
-%{~for name, config in var.teleport_gcp_apps~}
+%{ for name, config in var.teleport_gcp_apps ~}
   - name: ${name}
     cloud: GCP
     labels:
-%{~for key, value in config.labels~}
+%{ for key, value in config.labels ~}
       ${key}: ${value}
-%{~endfor~}
-%{~endfor~}
+%{ endfor ~}
+%{ endfor ~}
 GCP_CONFIG
     # ---------------------------------------------------------------------------- #
     gcp_db = <<-GCP_DB

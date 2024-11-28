@@ -34,7 +34,7 @@ resource "local_file" "teleport_config" {
   ${local.resources.start}
   ${local.resources.ssh}
   ${length(var.teleport_gcp_apps) > 0 ? local.resources.gcp : ""}
-  ${local.resources.gcp_db}
+  ${length(var.teleport_rds_hosts) > 0 ? local.resources.gcp_db : ""}
   ${local.resources.proxy}
   ${local.resources.end}
   ${local.commands.systemctl}

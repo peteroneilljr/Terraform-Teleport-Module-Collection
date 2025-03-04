@@ -1,5 +1,6 @@
 module "teleport_agent_rds" {
-  source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+  # source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+  source = "../terraform-teleport-agent"
 
   count = var.teleport_agent_enable ? 1:0
 

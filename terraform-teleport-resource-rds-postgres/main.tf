@@ -19,7 +19,7 @@ module "rds_postgresql" {
   allocated_storage     = 5
   max_allocated_storage = 10
 
-  db_name  = "sedemodb"
+  db_name  = "teleport_db"
   username = "teleport"
   port     = "5432"
   password = random_password.rds.result
@@ -60,11 +60,11 @@ resource "null_resource" "teleport_grant_iam" {
       private_key = var.private_key_file
     }
     inline = [
-      "echo 'export PGUSER=\"${module.rds_postgresql.db_instance_username}\"' > ./postgres",
-      "echo 'export PGPASSWORD=\"${random_password.rds.result}\"' >> ./postgres",
-      "echo 'export PGHOST=\"${module.rds_postgresql.db_instance_address}\"' >> ./postgres",
-      "echo 'export PGPORT=\"${module.rds_postgresql.db_instance_port}\"' >> ./postgres",
-      "echo 'export PGDATABASE=\"${module.rds_postgresql.db_instance_name}\"' >> ./postgres",
+      "echo 'export PGUSER=\"${module.rds_postgresql.db_instance_username}\"' > /tmp/postgres",
+      "echo 'export PGPASSWORD=\"${random_password.rds.result}\"' >> /tmp/postgres",
+      "echo 'export PGHOST=\"${module.rds_postgresql.db_instance_address}\"' >> /tmp/postgres",
+      "echo 'export PGPORT=\"${module.rds_postgresql.db_instance_port}\"' >> /tmp/postgres",
+      "echo 'export PGDATABASE=\"${module.rds_postgresql.db_instance_name}\"' >> /tmp/postgres",
     ]
   }
 
@@ -77,7 +77,7 @@ resource "null_resource" "teleport_grant_iam" {
       private_key = var.private_key_file
     }
     inline = [
-      "source ./postgres",
+      "source /tmp/postgres",
       "echo 'granting rds_iam to ${each.key}'",
       "psql -c 'CREATE USER ${each.key}; GRANT rds_iam TO ${each.key};'"
     ]

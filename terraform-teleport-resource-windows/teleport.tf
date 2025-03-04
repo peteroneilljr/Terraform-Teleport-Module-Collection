@@ -2,7 +2,8 @@
 # Create Teleport Agent to proxy windows machines
 # ---------------------------------------------------------------------------- #
 module "windows_teleport" {
-  source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+  # source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+  source = "../terraform-teleport-agent"
 
   count = var.teleport_agent_create ? 1 : 0
 

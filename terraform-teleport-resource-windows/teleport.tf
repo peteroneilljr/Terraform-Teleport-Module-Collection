@@ -22,8 +22,6 @@ module "windows_teleport" {
   }
 
   teleport_proxy_address = var.teleport_proxy_address
-  teleport_version       = var.teleport_version
-
 
   teleport_windows_hosts = {
     for index, host in var.windows_machines :

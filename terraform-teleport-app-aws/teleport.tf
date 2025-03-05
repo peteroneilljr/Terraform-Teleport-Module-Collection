@@ -2,7 +2,9 @@
 # Deploy Teleport Agent 
 # ---------------------------------------------------------------------------- #
 module "teleport_agent" {
-  source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+  source = "../terraform-teleport-agent"
+  # source = "git::https://github.com/peteroneilljr/terraform-teleport-agent.git"
+
 
   count = var.teleport_agent_create ? 1 : 0
 
@@ -11,10 +13,6 @@ module "teleport_agent" {
   aws_subnet_id         = var.aws_subnet_id
 
   teleport_agent_roles = ["Node", "App"]
-
-  teleport_cdn_address = var.teleport_cdn_address
-  teleport_version     = var.teleport_version
-  teleport_edition     = var.teleport_edition
 
   teleport_proxy_address = var.teleport_proxy_address
 

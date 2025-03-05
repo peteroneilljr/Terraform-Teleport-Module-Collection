@@ -45,7 +45,7 @@ locals {
       echo "# Install Teleport"
       echo "# ---------------------------------------------------------------------------- #"
 
-      curl https://goteleport.com/static/install.sh | bash -s ${var.teleport_version} 
+      curl "https://${var.teleport_proxy_address}:443/scripts/install.sh" | sudo bash
       INSTALL
   # ---------------------------------------------------------------------------- #
   }

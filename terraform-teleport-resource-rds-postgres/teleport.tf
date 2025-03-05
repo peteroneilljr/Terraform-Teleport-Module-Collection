@@ -12,8 +12,6 @@ module "teleport_agent_rds" {
 
   teleport_agent_roles = ["Node", "Db"]
 
-  teleport_version = var.teleport_version
-
   teleport_proxy_address = var.teleport_proxy_address
 
   aws_key_pair         = var.aws_key_pair
@@ -36,6 +34,9 @@ module "teleport_agent_rds" {
       "labels" = {
         "env" = "dev"
       }
+      "admin_user" = {
+        "name" = "teleport-admin"
+      }
     }
     "db-dev2" = {
       "uri"         = module.rds_postgresql.db_instance_endpoint
@@ -44,6 +45,9 @@ module "teleport_agent_rds" {
       "labels" = {
         "env" = "dev"
       }
+      "admin_user" = {
+        "name" = "teleport-admin"
+      }
     }
     "db-production" = {
       "uri"         = module.rds_postgresql.db_instance_endpoint
@@ -51,6 +55,9 @@ module "teleport_agent_rds" {
       "description" = "postgres"
       "labels" = {
         "env" = "prod"
+      }
+      "admin_user" = {
+        "name" = "teleport-admin"
       }
     }
   }

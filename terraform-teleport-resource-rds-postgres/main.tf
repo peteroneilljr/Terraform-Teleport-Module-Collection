@@ -1,7 +1,7 @@
 resource "random_password" "rds" {
   length           = 22
   special          = true
-  override_special = "."
+  override_special = "!@#"
 }
 
 module "rds_postgresql" {
@@ -30,7 +30,6 @@ module "rds_postgresql" {
   # pubilcally accessible to create users and grants
   publicly_accessible = true
 
-
   vpc_security_group_ids = [
     var.aws_security_group_id,
   ]
@@ -45,10 +44,7 @@ module "rds_postgresql" {
 
 }
 
-
-resource "null_resource" "teleport_grant_iam" {
-  for_each = toset(var.rds_users)
-
+resource "null_resource" "create_postgres_auth_file" {
   triggers = {
     resource_id = module.rds_postgresql.db_instance_resource_id
   }
@@ -68,6 +64,42 @@ resource "null_resource" "teleport_grant_iam" {
     ]
   }
 
+  depends_on = [
+    module.teleport_agent_rds[0]
+  ]
+}
+resource "null_resource" "postgres_create_iam_permissions" {
+  triggers = {
+    resource_id = module.rds_postgresql.db_instance_resource_id
+  }
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      host        = module.teleport_agent_rds[0].teleport_agent_public_ip
+      private_key = var.private_key_file
+    }
+    inline = [
+      "source /tmp/postgres",
+      "timeout=120; interval=2; elapsed=0; until psql -c 'SELECT CURRENT_TIMESTAMP;' && break; do sleep $interval; elapsed=$((elapsed + interval)); [ $elapsed -ge $timeout ] && echo 'Timeout reached! Command failed.' && exit 1; done",
+      "psql -c 'CREATE USER \"teleport-admin\" login createrole;'",
+      "psql -c 'GRANT rds_iam TO \"teleport-admin\" WITH ADMIN OPTION;'",
+      "psql -c 'GRANT rds_superuser TO \"teleport-admin\";'",
+    ]
+  }
+
+  depends_on = [
+    null_resource.create_postgres_auth_file
+  ]
+}
+
+resource "null_resource" "teleport_grant_iam" {
+  for_each = toset(var.rds_users)
+
+  triggers = {
+    resource_id = module.rds_postgresql.db_instance_resource_id
+  }
+
   provisioner "remote-exec" {
 
     connection {
@@ -84,6 +116,6 @@ resource "null_resource" "teleport_grant_iam" {
   }
 
   depends_on = [
-    module.teleport_agent_rds[0]
+    null_resource.postgres_create_iam_permissions
   ]
 }
